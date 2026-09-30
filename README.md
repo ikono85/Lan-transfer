@@ -170,11 +170,33 @@ Détails du protocole, de la sécurité et des algorithmes : [docs/TECHNIQUE.md]
 
 ## Feuille de route
 
-- Installateur et icône dédiée
-- Capture d'écran DXGI et encodage vidéo (H.264) pour de meilleures performances
-- Reprise des gros fichiers en synchronisation, détection des renommages
-- Transferts en parallèle
-- Accès hors réseau local (relais / traversée de NAT)
+### ✅ Fait
+
+- ✅ Chiffrement TLS 1.3 avec certificats propres à chaque PC
+- ✅ Mot de passe Argon2id, preuve liée aux certificats, blocage après 5 essais
+- ✅ Envoi de fichiers et de dossiers, avec reprise après coupure
+- ✅ Historique des transferts
+- ✅ Chat texte
+- ✅ Détection automatique des PC du réseau
+- ✅ Écran distant : vue, souris et clavier, multi-écrans, presse-papiers partagé, son
+- ✅ Synchronisation de dossiers dans les deux sens, avec corbeille et garde-fou contre les suppressions massives
+- ✅ Interface WPF avec thèmes sombre, clair et système, et icône dans la zone de notification
+- ✅ Exécutable autonome en un seul fichier
+- ✅ 63 tests unitaires et de bout en bout
+
+### ⬜ À venir
+
+- ⬜ Release GitHub avec `LanLink.exe` à télécharger, et build automatique (GitHub Actions)
+- ⬜ Installateur et icône dédiée
+- ⬜ Signature de l'exécutable (fin de l'avertissement Windows)
+- ⬜ Capture d'écran DXGI et encodage vidéo (H.264) pour de meilleures performances
+- ⬜ Reprise des gros fichiers en synchronisation
+- ⬜ Détection des renommages en synchronisation
+- ⬜ Synchronisation des dossiers vides
+- ⬜ Transferts en parallèle
+- ⬜ Protocole à mot de passe sans divulgation (OPAQUE / SPAKE2)
+- ⬜ Accès hors réseau local (relais / traversée de NAT)
+- ⬜ README en anglais
 
 ## Licence
 
