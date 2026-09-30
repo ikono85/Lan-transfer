@@ -1,87 +1,181 @@
+<div align="center">
+
+<img src="docs/img/transfert.gif" alt="Transfert de dossiers entre deux PC" width="360">
+
 # LanLink
 
-Transfert de fichiers, synchronisation de dossiers, chat et contrôle à distance (écran, souris/clavier, presse-papiers, son, multi-écrans) entre PC Windows d'un réseau local.
-C# / .NET 8 — interface WPF, cœur réseau indépendant et testé.
+**Envoie des fichiers, synchronise des dossiers et prends la main sur un autre PC de ton réseau local,<br>sans cloud ni compte.**
 
-## Structure
+![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4) ![.NET](https://img.shields.io/badge/.NET-8-512bd4) ![Tests](https://img.shields.io/badge/tests-63%20passent-3ecf8e) ![Chiffrement](https://img.shields.io/badge/TLS-1.3-8b5cf6)
 
-| Projet | Rôle |
+</div>
+
+LanLink est une application Windows qui relie tes PC entre eux, **directement**, avec toutes les communications chiffrées.
+Elle remplace la version Python « Lan-transfer » par une réécriture en C# / .NET 8.
+
+---
+
+## Ce que tu peux faire
+
+| | |
 |---|---|
-| `src/LanLink.Core` | Protocole, TLS 1.3, authentification, transfert avec reprise, découverte, stockage |
-| `src/LanLink.App` | Interface WPF (MVVM), icône de notification, thèmes sombre/clair |
-| `tests/LanLink.Core.Tests` | Tests unitaires et de bout en bout (vrai TLS sur localhost) |
+| 📤 **Envoyer** | Fichiers et dossiers entiers, glisser-déposer, progression, annulation. Un envoi coupé **reprend là où il s'est arrêté**. |
+| 🖥️ **Écran distant** | Voir l'écran d'un autre PC, ou le contrôler (souris, clavier). Plusieurs écrans, presse-papiers partagé, son. |
+| 🔄 **Synchroniser** | Garde un dossier identique sur deux PC, dans les deux sens, automatiquement. Rien n'est perdu : les fichiers écrasés ou supprimés vont dans une corbeille. |
+| 💬 **Discuter** | Envoie un message texte à un autre PC. |
+| 🕘 **Historique** | Liste de tous tes transferts, avec ouverture du dossier. |
 
+Et aussi : détection automatique des PC du réseau, icône dans la zone de notification (l'app reste active fenêtre fermée), thème sombre / clair / système.
+
+---
+
+## Installation
+
+### Option 1 — L'exécutable prêt à l'emploi
+
+Génère `LanLink.exe` (un seul fichier, .NET inclus, rien à installer) :
+
+```powershell
+dotnet publish src/LanLink.App -c Release -r win-x64 --self-contained true `
+  -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true `
+  -p:EnableCompressionInSingleFile=true -o dist
 ```
-dotnet build
-dotnet test
+
+Copie ensuite `dist\LanLink.exe` sur chacun de tes PC (clé USB, partage réseau…) et lance-le.
+
+> Windows peut afficher « Windows a protégé votre ordinateur » car l'exécutable n'est pas signé :
+> clique sur **Informations complémentaires → Exécuter quand même**.
+
+### Option 2 — Depuis les sources
+
+Il faut le [SDK .NET 8](https://dotnet.microsoft.com/download/dotnet/8.0) ou plus récent.
+
+```powershell
+git clone https://github.com/ikono85/Lan-transfer.git
+cd Lan-transfer
 dotnet run --project src/LanLink.App
 ```
 
-Ports : TCP 45870 (tout le trafic), UDP 45871 (découverte).
+---
+
+## Premiers pas (5 minutes)
+
+<img src="docs/img/reglages.webp" alt="Réglages" width="110" align="right">
+
+À faire **sur chaque PC** :
+
+1. **Lance LanLink.** Autorise le pare-feu Windows sur les **réseaux privés** quand il te le demande.
+2. Va dans **Réglages → Mot de passe de ce PC**, choisis un mot de passe (12 caractères minimum, une phrase de passe est idéale) et clique sur **Enregistrer**.
+   Sans mot de passe, un PC refuse toutes les connexions entrantes.
+
+Ensuite, depuis le PC qui veut se connecter à un autre :
+
+3. Choisis l'autre PC dans **« PC détectés »** (colonne de gauche), ou saisis son adresse IP.
+4. Tape **le mot de passe de l'autre PC** dans le cadre « Destinataire » en haut.
+5. Utilise l'onglet de ton choix : Envoyer, Discuter, Écran distant ou Synchronisation.
+
+Le destinataire et le mot de passe saisis en haut servent à tous les onglets.
+
+---
+
+## Utilisation
+
+### 📤 Envoyer des fichiers
+
+Onglet **Envoyer** : ajoute des fichiers ou un dossier (boutons ou glisser-déposer), puis **Envoyer**.
+Sur l'autre PC, une fenêtre demande d'**accepter** le transfert ; les fichiers arrivent dans le dossier de réception (par défaut *Téléchargements*, modifiable dans Réglages).
+
+- Si la connexion est coupée, renvoie simplement le même élément : le transfert reprend là où il s'est arrêté.
+- Chaque fichier est vérifié à l'arrivée (empreinte SHA-256).
+
+### 🖥️ Voir ou contrôler un écran
+
+Onglet **Écran distant** : **Voir l'écran** (lecture seule) ou **Voir et contrôler**.
+
+- L'utilisateur de l'autre PC doit **accepter** et choisit ce qu'il autorise : contrôle, presse-papiers, son.
+- Pendant le partage, une **barre orange** reste affichée sur l'écran partagé, avec un bouton **Arrêter le partage**.
+- Dans la fenêtre de visualisation : choix du moniteur, qualité (Économie / Équilibré / Netteté), son, clavier, plein écran.
+- Les touches enfoncées sont relâchées automatiquement à la fin de la session ou en cas de coupure.
+- On peut désactiver complètement le partage d'écran dans **Réglages → Partage d'écran**.
+
+**Limites :** l'écran de sécurité de Windows (fenêtre UAC, Ctrl+Alt+Suppr) n'est ni visible ni pilotable, et les applications lancées en administrateur ignorent les clics tant que LanLink n'est pas lui-même lancé en administrateur.
+
+### 🔄 Synchroniser un dossier
+
+<img src="docs/img/synchronisation.gif" alt="Synchronisation" width="110" align="right">
+
+Onglet **Synchronisation** : **Créer avec le destinataire du haut…**, choisis le dossier local.
+L'autre PC voit une demande, choisit **son** dossier et accepte.
+
+- La synchronisation va **dans les deux sens** : fichiers nouveaux copiés, modifications et suppressions propagées.
+- Le PC qui l'a créée se connecte **toutes les minutes** et 3 secondes après une modification locale. Les changements de l'autre PC sont repris à la passe suivante (une minute au plus).
+- **Conflit** (fichier modifié des deux côtés) : la version la plus récente est gardée, l'autre est mise de côté.
+- **Corbeille :** tout fichier écrasé ou supprimé est conservé 30 jours dans `.lanlink-sync\trash\` à la racine du dossier synchronisé.
+- **Garde-fous :** une suppression massive (dossier vidé, disque débranché) est refusée ; les fichiers encore en cours d'écriture sont reportés.
+- Boutons : synchroniser maintenant, pause / reprise, ouvrir le dossier, réinitialiser l'historique, supprimer (les fichiers ne sont jamais supprimés en retirant une synchronisation).
+
+Les dossiers vides ne sont pas synchronisés, et un renommage est vu comme une suppression suivie d'un nouveau fichier.
+
+### 💬 Discuter
+
+Onglet **Discuter** : écris un message, **Entrée** pour l'envoyer au PC choisi en haut.
+
+---
 
 ## Sécurité
 
-- **TLS 1.3** avec certificats auto-signés par appareil (ECDSA P-256), authentification mutuelle des certificats.
-- **Mot de passe permanent par PC** (12 caractères minimum), dérivé en Argon2id. Après le handshake TLS, les deux
-  côtés échangent des preuves HMAC liées aux empreintes des deux certificats : un intermédiaire ne peut pas relayer.
-- Le client refuse des paramètres Argon2 trop faibles annoncés par le serveur. 5 échecs bloquent une adresse 5 minutes.
-- Identité et vérificateur du mot de passe chiffrés au repos avec DPAPI (`%LOCALAPPDATA%\LanLink\identity.bin`).
-- Noms et chemins reçus assainis (traversée de répertoires, noms réservés Windows, flux NTFS).
+- **Chiffrement TLS 1.3** de toutes les communications, avec un certificat propre à chaque PC.
+- **Mot de passe** : jamais envoyé sur le réseau. Chaque connexion prouve qu'on le connaît (dérivation Argon2id), et la preuve est liée aux certificats des deux PC, ce qui empêche un intermédiaire de se glisser dans l'échange. Le PC destinataire est authentifié aussi, pas seulement l'expéditeur.
+- **Essais limités :** après 5 mots de passe incorrects, l'adresse est bloquée 5 minutes.
+- **Tout demande ton accord :** transfert entrant, partage d'écran, synchronisation. Tu choisis ce qui est autorisé.
+- **Stockage :** certificat et mot de passe sont chiffrés avec ton compte Windows (DPAPI) dans `%LOCALAPPDATA%\LanLink\`.
+- **Noms de fichiers reçus vérifiés** (pas de sortie du dossier de destination, noms réservés Windows refusés).
 
-**Limite connue** : ce n'est pas un vrai PAKE. Quelqu'un qui se fait passer pour un PC peut recueillir une preuve et
-tenter de deviner le mot de passe hors ligne (coût Argon2 par essai) : choisis une phrase de passe longue.
-Remplacer le handshake par OPAQUE/SPAKE2 supprimerait cette limite.
+⚠️ **Limite connue :** ce n'est pas un protocole à mot de passe « zéro connaissance ». Quelqu'un qui se ferait passer pour l'un de tes PC pourrait tenter de deviner le mot de passe hors ligne : **choisis une phrase de passe longue**.
+LanLink est prévu pour un **réseau local de confiance** (maison, petit bureau), pas pour Internet.
 
-## Protocole (v1)
+---
 
-Trames `[type:1][longueur:4 BE][charge utile]` sur TLS. Handshake : `Hello` (sel, paramètres Argon2, nonce) →
-`ClientAuth` (preuve) → `ServerAuth` (preuve). Ensuite des requêtes : `Offer` (transfert), `Chat`, `RemoteRequest`
-(la connexion devient alors dédiée à la session : `Video`/`VideoAck`, `Input`, `Clipboard`, `Audio`, `RemoteSettings`, `RemoteEnd`),
-`SyncPairRequest` (appairage) et `SyncOpen` (passe de synchronisation dédiée : `SyncListRequest`/`SyncListing`, `SyncGet`,
-`SyncPut`, `SyncDelete`, `SyncDone`).
-Transfert : par fichier, `FileStart` → `ResumeInfo` (octets déjà reçus + SHA-256 du préfixe) → `ResumeAck` →
-`Data`… → `FileEnd` (SHA-256 complet) → `FileResult`. Les `.part` restent dans `<réception>\.lanlink` pour la reprise.
+## Dépannage
 
-## Contrôle à distance
+| Problème | Solution |
+|---|---|
+| L'autre PC n'apparaît pas dans « PC détectés » | Saisis directement son adresse IP (visible sur son écran LanLink ou par `ipconfig`). La découverte est parfois bloquée par le routeur ou le pare-feu. |
+| « Connexion impossible » | Autorise LanLink dans le pare-feu Windows (réseau privé), vérifie que les deux PC sont sur le même réseau et que LanLink tourne sur les deux. |
+| « Mot de passe incorrect » | C'est le mot de passe **de l'autre PC** qu'il faut taper en haut, pas le tien. Après 5 échecs, patiente 5 minutes. |
+| « Aucun mot de passe défini sur ce PC » | Définis-en un dans Réglages sur le PC que tu essaies de joindre. |
+| Le contrôle à distance ne répond pas dans certaines fenêtres | Ce sont sans doute des applications lancées en administrateur : lance LanLink en administrateur sur le PC contrôlé. |
+| Une synchronisation reste en erreur | Le message est affiché dans la liste. Les causes fréquentes : dossier introuvable, autre PC éteint, mot de passe modifié (supprime et recrée la synchronisation). |
+| L'app ne s'affiche plus | Elle est réduite dans la zone de notification : clique sur son icône. |
 
-Onglet « Écran distant » : **Voir l'écran** (lecture seule) ou **Voir et contrôler**. Après le mot de passe, l'utilisateur du
-PC partagé voit une fenêtre de demande et choisit ce qu'il autorise (contrôle, presse-papiers, son) ; une barre orange avec
-un bouton « Arrêter » reste affichée pendant tout le partage. Le partage peut être désactivé dans Réglages.
+**Ports utilisés :** TCP 45870 (tout le trafic) et UDP 45871 (découverte des PC).
 
-- Image : JPEG par capture GDI, réglable (Économie / Équilibré / Netteté), un écran à la fois avec choix du moniteur,
-  image non renvoyée si l'écran n'a pas changé, contrôle de flux (2 images non acquittées au maximum).
-- Entrées : coordonnées normalisées dans l'écran choisi (multi-écrans et mise à l'échelle DPI sans décalage), lots
-  d'événements avec fusion des déplacements ; toutes les touches et boutons encore enfoncés sont relâchés à la fin de session
-  ou à la coupure.
-- Presse-papiers texte/image dans les deux sens (2 Mo max), son du PC (WASAPI loopback, PCM 16 bits).
-- Limites : le bureau sécurisé (UAC, Ctrl+Alt+Suppr) n'est pas visible ni pilotable ; les applications lancées en
-  administrateur ignorent les entrées tant que LanLink n'est pas lui-même administrateur ; le curseur distant est affiché
-  en flèche générique.
+---
 
-## Synchronisation de dossiers
+## Développement
 
-Onglet « Synchronisation » : **Créer avec le destinataire du haut…** choisit un dossier local ; l'autre PC voit une
-demande, choisit son propre dossier et accepte. La synchronisation est **bidirectionnelle** :
+```powershell
+dotnet build          # compile la solution
+dotnet test           # 63 tests unitaires et de bout en bout (vrai TLS sur localhost)
+dotnet run --project src/LanLink.App
+```
 
-- Le PC qui l'a créée (initiateur) se connecte toutes les minutes et 3 s après une modification locale ; l'autre PC est
-  passif. Les changements faits sur le PC passif sont donc repris à la passe suivante (≤ 1 min). Si l'adresse IP de l'autre
-  PC change, il est retrouvé par son nom grâce à la découverte réseau.
-- Chaque côté compare son dossier au **dernier état synchronisé** : fichier nouveau = copié, modifié d'un côté = propagé,
-  supprimé d'un côté et inchangé de l'autre = supprimé partout. Modifié des deux côtés (ou modifié d'un côté et supprimé de
-  l'autre) : la version la plus récente est gardée.
-- **Rien n'est perdu** : tout fichier écrasé ou supprimé va dans `.lanlink-sync/trash/<date>/` (30 jours).
-- Garde-fous : suppression massive refusée (≥ 10 fichiers et plus de la moitié de l'historique), dossier absent refusé,
-  fichiers modifiés depuis moins de 2 s reportés, certificat de l'autre PC épinglé (un autre certificat bloque la paire),
-  chemins validés à chaque requête, empreinte SHA-256 vérifiée pour chaque fichier.
-- Le mot de passe de l'autre PC est conservé chiffré (DPAPI) dans `sync-pairs.json` côté initiateur.
-- Limites : les dossiers vides ne sont pas synchronisés ; un gros fichier interrompu recommence à zéro à la passe suivante ;
-  une passe termine quand la liste des fichiers a été comparée, donc de très grands dossiers (centaines de milliers de
-  fichiers) sont lents à analyser ; pas de renommage détecté (un renommage = suppression + nouveau fichier).
+| Projet | Rôle |
+|---|---|
+| `src/LanLink.Core` | Protocole, TLS, authentification, transfert, écran distant, synchronisation, découverte |
+| `src/LanLink.App` | Interface WPF (MVVM), icône de notification, thèmes, capture d'écran et injection Windows |
+| `tests/LanLink.Core.Tests` | Tests |
 
-## À faire
+Détails du protocole, de la sécurité et des algorithmes : [docs/TECHNIQUE.md](docs/TECHNIQUE.md).
 
-- Synchronisation de dossiers, presse-papiers partagé
-- Capture DXGI (plus rapide sur grands écrans), encodage vidéo (H.264) à la place du JPEG
+## Feuille de route
+
+- Installateur et icône dédiée
+- Capture d'écran DXGI et encodage vidéo (H.264) pour de meilleures performances
 - Reprise des gros fichiers en synchronisation, détection des renommages
-- Transferts parallèles, icône dédiée, installateur
-- Transport interchangeable pour Internet (relais / NAT traversal)
+- Transferts en parallèle
+- Accès hors réseau local (relais / traversée de NAT)
+
+## Licence
+
+Aucune licence n'a encore été choisie : tant qu'elle n'est pas précisée, tous droits réservés.
