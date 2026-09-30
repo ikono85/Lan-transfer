@@ -1,5 +1,7 @@
 <div align="center">
 
+**🇫🇷 Français** · [🇬🇧 English](README.en.md)
+
 <img src="docs/img/banner.webp" alt="LanLink — fichiers, dossiers et écran distant sur ton réseau local" width="100%">
 
 </div>
@@ -183,6 +185,7 @@ Détails du protocole, de la sécurité et des algorithmes : [docs/TECHNIQUE.md]
 - ✅ Interface WPF avec thèmes sombre, clair et système, et icône dans la zone de notification
 - ✅ Exécutable autonome en un seul fichier
 - ✅ 63 tests unitaires et de bout en bout
+- ✅ README en français et en anglais
 
 ### ⬜ À venir
 
@@ -196,7 +199,7 @@ Détails du protocole, de la sécurité et des algorithmes : [docs/TECHNIQUE.md]
 - ⬜ Transferts en parallèle
 - ⬜ Protocole à mot de passe sans divulgation (OPAQUE / SPAKE2)
 - ⬜ Accès hors réseau local (relais / traversée de NAT)
-- ⬜ README en anglais
+- ⬜ Interface de l'application en anglais
 
 ## Licence
 
