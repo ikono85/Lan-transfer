@@ -1,0 +1,26 @@
+<Window x:Class="LanLink.App.Views.RemoteRequestDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Style="{StaticResource AppWindow}"
+        Title="Demande de partage d'écran" SizeToContent="WidthAndHeight" MaxWidth="500"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="True" Topmost="True"
+        SourceInitialized="OnSourceInitialized">
+    <StackPanel Margin="24" TextElement.Foreground="{DynamicResource TextBrush}">
+        <TextBlock x:Name="TitleText" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap"/>
+        <TextBlock x:Name="DetailText" Style="{StaticResource Muted}" Margin="0,6,0,0"/>
+
+        <TextBlock Text="AUTORISER" Style="{StaticResource Caption}" Margin="0,18,0,8"/>
+        <CheckBox x:Name="ControlBox" Content="Souris et clavier (contrôle total de ce PC)" Foreground="{DynamicResource TextBrush}" Margin="0,0,0,6"/>
+        <CheckBox x:Name="ClipboardBox" Content="Presse-papiers partagé (texte et images)" Foreground="{DynamicResource TextBrush}" Margin="0,0,0,6"/>
+        <CheckBox x:Name="AudioBox" Content="Son de ce PC" Foreground="{DynamicResource TextBrush}"/>
+
+        <TextBlock x:Name="WarningText" Foreground="{DynamicResource DangerBrush}" TextWrapping="Wrap" FontSize="12" Margin="0,14,0,0"/>
+        <TextBlock Style="{StaticResource Muted}" FontSize="12" Margin="0,8,0,0"
+                   Text="Une barre orange restera affichée en haut de l'écran pendant le partage ; le bouton « Arrêter » la coupe à tout moment."/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Refuser" Margin="0,0,8,0" IsCancel="True" Click="OnRefuse"/>
+            <Button Content="Autoriser" Style="{StaticResource AccentButton}" IsDefault="True" Click="OnAccept"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

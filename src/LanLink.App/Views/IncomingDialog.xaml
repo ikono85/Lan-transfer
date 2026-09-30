@@ -1,0 +1,18 @@
+<Window x:Class="LanLink.App.Views.IncomingDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Style="{StaticResource AppWindow}"
+        Title="Transfert entrant" SizeToContent="WidthAndHeight" MaxWidth="480"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="True" Topmost="True"
+        SourceInitialized="OnSourceInitialized">
+    <StackPanel Margin="24" TextElement.Foreground="{DynamicResource TextBrush}">
+        <TextBlock x:Name="TitleText" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap"/>
+        <TextBlock x:Name="DetailText" Style="{StaticResource Muted}" Margin="0,6,0,0"/>
+        <TextBlock x:Name="NameText" FontSize="14" FontWeight="SemiBold" Margin="0,14,0,0" TextWrapping="Wrap"/>
+        <TextBlock x:Name="SizeText" Style="{StaticResource Muted}" Margin="0,2,0,0"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,22,0,0">
+            <Button Content="Refuser" Margin="0,0,8,0" IsCancel="True" Click="OnRefuse"/>
+            <Button Content="Accepter" Style="{StaticResource AccentButton}" IsDefault="True" Click="OnAccept"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
