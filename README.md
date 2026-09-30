@@ -1,22 +1,13 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/img/transfert-dark.webp">
-  <img alt="Transfert de dossiers entre deux PC" src="docs/img/transfert.gif" width="360">
-</picture>
-
-# LanLink
-
-**Envoie des fichiers, synchronise des dossiers et prends la main sur un autre PC de ton réseau local,<br>sans cloud ni compte.**
-
-![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d4) ![.NET](https://img.shields.io/badge/.NET-8-512bd4) ![Tests](https://img.shields.io/badge/tests-63%20passent-3ecf8e) ![Chiffrement](https://img.shields.io/badge/TLS-1.3-8b5cf6)
+<img src="docs/img/banner.webp" alt="LanLink — fichiers, dossiers et écran distant sur ton réseau local" width="100%">
 
 </div>
 
 LanLink est une application Windows qui relie tes PC entre eux, **directement**, avec toutes les communications chiffrées.
 Elle remplace la version Python « Lan-transfer » par une réécriture en C# / .NET 8.
 
----
+<img src="docs/img/divider.png" alt="" width="100%" height="6">
 
 ## Ce que tu peux faire
 
@@ -30,7 +21,7 @@ Elle remplace la version Python « Lan-transfer » par une réécriture en C# / 
 
 Et aussi : détection automatique des PC du réseau, icône dans la zone de notification (l'app reste active fenêtre fermée), thème sombre / clair / système.
 
----
+<img src="docs/img/divider.png" alt="" width="100%" height="6">
 
 ## Installation
 
@@ -59,7 +50,7 @@ cd Lan-transfer
 dotnet run --project src/LanLink.App
 ```
 
----
+<img src="docs/img/divider.png" alt="" width="100%" height="6">
 
 ## Premiers pas (5 minutes)
 
@@ -82,7 +73,7 @@ Ensuite, depuis le PC qui veut se connecter à un autre :
 
 Le destinataire et le mot de passe saisis en haut servent à tous les onglets.
 
----
+<img src="docs/img/divider.png" alt="" width="100%" height="6">
 
 ## Utilisation
 
@@ -129,7 +120,7 @@ Les dossiers vides ne sont pas synchronisés, et un renommage est vu comme une s
 
 Onglet **Discuter** : écris un message, **Entrée** pour l'envoyer au PC choisi en haut.
 
----
+<img src="docs/img/divider.png" alt="" width="100%" height="6">
 
 ## Sécurité
 
@@ -143,7 +134,7 @@ Onglet **Discuter** : écris un message, **Entrée** pour l'envoyer au PC choisi
 ⚠️ **Limite connue :** ce n'est pas un protocole à mot de passe « zéro connaissance ». Quelqu'un qui se ferait passer pour l'un de tes PC pourrait tenter de deviner le mot de passe hors ligne : **choisis une phrase de passe longue**.
 LanLink est prévu pour un **réseau local de confiance** (maison, petit bureau), pas pour Internet.
 
----
+<img src="docs/img/divider.png" alt="" width="100%" height="6">
 
 ## Dépannage
 
@@ -159,7 +150,7 @@ LanLink est prévu pour un **réseau local de confiance** (maison, petit bureau)
 
 **Ports utilisés :** TCP 45870 (tout le trafic) et UDP 45871 (découverte des PC).
 
----
+<img src="docs/img/divider.png" alt="" width="100%" height="6">
 
 ## Développement
 
@@ -188,3 +179,5 @@ Détails du protocole, de la sécurité et des algorithmes : [docs/TECHNIQUE.md]
 ## Licence
 
 Aucune licence n'a encore été choisie : tant qu'elle n'est pas précisée, tous droits réservés.
+
+<img src="docs/img/footer.png" alt="LanLink" width="100%">
