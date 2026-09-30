@@ -1,6 +1,9 @@
 <div align="center">
 
-<img src="docs/img/transfert.gif" alt="Transfert de dossiers entre deux PC" width="360">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/transfert-dark.webp">
+  <img alt="Transfert de dossiers entre deux PC" src="docs/img/transfert.gif" width="360">
+</picture>
 
 # LanLink
 
@@ -60,7 +63,10 @@ dotnet run --project src/LanLink.App
 
 ## Premiers pas (5 minutes)
 
-<img src="docs/img/reglages.webp" alt="Réglages" width="110" align="right">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/reglages-dark.webp">
+  <img alt="Réglages" src="docs/img/reglages.webp" width="110" align="right">
+</picture>
 
 À faire **sur chaque PC** :
 
@@ -102,7 +108,10 @@ Onglet **Écran distant** : **Voir l'écran** (lecture seule) ou **Voir et contr
 
 ### 🔄 Synchroniser un dossier
 
-<img src="docs/img/synchronisation.gif" alt="Synchronisation" width="110" align="right">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/synchronisation-dark.webp">
+  <img alt="Synchronisation" src="docs/img/synchronisation.gif" width="110" align="right">
+</picture>
 
 Onglet **Synchronisation** : **Créer avec le destinataire du haut…**, choisis le dossier local.
 L'autre PC voit une demande, choisit **son** dossier et accepte.
